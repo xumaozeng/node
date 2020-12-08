@@ -1,0 +1,6 @@
+{
+    "prettier.trailingComma": "none",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
