@@ -14,4 +14,18 @@ module.exports = class TestNow {
       base: testName
     });
   }
+
+  /**
+   * 生成测试代码
+   */
+  getTestSource(methodName, classFile, isClass = false) {
+    console.log("getTestSource:", methodName);
+    return `
+  test('${"TEST" + methodName}', ()=>{
+    const ${isClass ? "{" + methodName + "}" : methodName} = require('${"../" + classFile}')
+    const ret = ${methodName}()
+    // expect(ret)
+    //  .toBe('test return')
+    })`;
+  }
 };
