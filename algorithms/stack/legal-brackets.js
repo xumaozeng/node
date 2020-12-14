@@ -4,7 +4,7 @@
  * (sd(qwqw)sd(sd))合法
  * ()()sd()(sd()fw))(不合法
  */
-Stack = require("./myStack");
+var Stack = require("./myStack");
 
 function legalBrackets(str) {
   // 定义一个栈结构
