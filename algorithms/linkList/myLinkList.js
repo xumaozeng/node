@@ -30,7 +30,7 @@ function LinkList() {
     return true;
   };
 
-  // 打印节点
+  // 输出链表
   this.print = function () {
     var curr_node = head; // 指向头结点
     var str_link = ""; // 输出字符串连接
@@ -42,6 +42,19 @@ function LinkList() {
     str_link += "null"; // 边界条件curr_node=null
     console.log(str_link);
     console.log("链表长度为", length.toString());
+  };
+
+  // 获取指定位置的节点，找到索引为index-1
+  var get_node = function (index) {
+    // 不合法情况
+    if (index < 0 || index >= length) return null;
+    var node_index = index;
+    var curr_node = head;
+    while (node_index-- > 0) {
+      // 遍历index次，找到其位置的节点
+      curr_node = curr_node.next;
+    }
+    return curr_node;
   };
 
   // 在指定位置插入新的元素
@@ -60,16 +73,10 @@ function LinkList() {
         head = new_node;
       } else {
         // 1<=index<length合法范围内
-        var curr_node = head;
-        var insert_index = 1;
-        while (insert_index < index) {
-          // 遍历链表找到插入的前一个节点
-          insert_index++;
-          curr_node = curr_node.next;
-        }
-        var next_node = curr_node.next;
-        curr_node.next = new_node;
-        new_node.next = next_node;
+        // 要插入的位置是index-1，则要找到前一个位置的节点
+        var pre_node = get_node(index - 1);
+        new_node.next = pre_node.next;
+        pre_node.next = new_node;
       }
       length++;
       return true;
@@ -87,21 +94,18 @@ function LinkList() {
         // 删除头结点
         del_node = head;
         head = head.next;
+        // 如果head=null说明之前链表只有一个节点
+        if (!head) {
+          tail = null;
+        }
       } else {
         // 1<=index<length
-        var del_index = 0;
-        var pre_node = null;
-        var curr_node = head;
-        while (del_index < index) {
-          // 遍历找到删除节点的前一个节点
-          del_index++;
-          pre_node = curr_node;
-          curr_node = curr_node.next;
-        }
-        del_node = curr_node;
-        pre_node.next = curr_node.next;
-        // 如果删除的是尾结点
-        if (!curr_node.next) {
+        // 要删除index-1节点，则找到前一个节点的位置
+        var pre_node = get_node(index - 1);
+        del_node = pre_node.next;
+        pre_node.next = pre_node.next.next;
+        if (!del_node.next) {
+          // 如果删除的是尾结点，则tail指定pre_node
           tail = pre_node;
         }
       }
@@ -116,14 +120,9 @@ function LinkList() {
     if (index < 0 || index >= length) {
       return null;
     }
-    var node_index = 0;
-    var curr_node = head;
-    while (node_index < index) {
-      // 遍历找到指定index的位置节点
-      node_index++;
-      curr_node = curr_node.next;
-    }
-    return curr_node.data;
+    var node = get_node(index);
+    if (node) return node.data;
+    return null;
   };
 
   // 返回指定元素的索引，没有则返回-1
@@ -177,5 +176,17 @@ function LinkList() {
     length = 0;
   };
 }
+
+// test
+var linklist = new LinkList();
+linklist.append(1);
+linklist.append(3);
+linklist.append(2);
+linklist.append(1);
+linklist.insert(2, 5);
+linklist.remove(3);
+
+linklist.print();
+console.log(linklist.get(3));
 
 exports.LinkList = LinkList;

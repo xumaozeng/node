@@ -11,13 +11,18 @@ function StackQueue() {
   const stack1 = new Stack.Stack();
   const stack2 = new Stack.Stack();
 
-  // 入队
+  // 入队-总是把数据放入到stack1中
   this.enqueue = function (item) {
     stack1.push(item);
   };
 
   // 返回队头的元素
   this.head = function () {
+    if (stack1.isEmpty() && stack2.isEmpty()) {
+      // 两个栈都是空的
+      return null;
+    }
+    // 如果stack2为空，则stack1一定不为空，则把stack1元素倒入stack2中
     if (stack2.isEmpty()) {
       while (stack1.size() > 0) {
         stack2.push(stack1.pop());
@@ -26,8 +31,13 @@ function StackQueue() {
     return stack2.top();
   };
 
-  // 出队
+  // 出队-始终在stack2中pop元素
   this.dequeue = function () {
+    // 两个栈都是空的，则返回null
+    if (stack1.isEmpty() && stack2.isEmpty()) {
+      return null;
+    }
+    // 如果stack2为空，则把stack1中元素倒入stack2中
     if (stack2.isEmpty()) {
       while (stack1.size() > 0) {
         stack2.push(stack1.pop());
