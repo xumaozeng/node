@@ -24,6 +24,16 @@ function pre_order(node) {
       curr_node = stack.pop(); // 不存在则从栈中弹出元素遍历右孩子
     }
   }
+  /* while (curr_node || !stack.isEmpty()) {
+    // 先处理当前节点，然后左子树
+    while (curr_node) {
+      console.log(curr_node.data);
+      stack.push(curr_node);
+      curr_node = curr_node.leftChild;
+    }
+    var pop_node = stack.pop();
+    curr_node = pop_node.rightChild;
+  } */
 }
 
 // test
