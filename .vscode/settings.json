@@ -1,8 +1,0 @@
-{
-    "prettier.trailingComma": "none",
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "prettier.arrowParens": "avoid",
-    "prettier.printWidth": 80
-}
