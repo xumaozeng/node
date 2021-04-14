@@ -22,6 +22,7 @@ node4.next = node5;
 node5.next = node6;
 node6.next = node7;
 
+// 方法1
 function merge_link(head1, head2) {
   if (!head1) return head2;
   if (!head2) return head1;
@@ -65,9 +66,25 @@ function merge_link(head1, head2) {
   return merge_head;
 }
 
+// 方法2：递归
+function mergeTwoLists(head1, head2) {
+  if (!head1) return head2;
+  if (!head2) return head1;
+
+  let head;
+  if (head1.data < head2.data) {
+    head = head1;
+    head.next = mergeTwoLists(head1.next, head2);
+  } else {
+    head = head2;
+    head.next = mergeTwoLists(head1, head2.next);
+  }
+  return head;
+}
+
 // print
 
-print(merge_link(node1, node4));
+print(mergeTwoLists(node1, node4));
 
 function print(node) {
   var curr_node = node;
