@@ -13,16 +13,19 @@ Function.prototype.myBind = function (context) {
   // 2.获取参数
   const args = [...arguments].slice(1);
 
-  // 3.返回一个新的函数
-  const fn = this;
-
-  return function Fn() {
-    // 根据调用方式，传入不同的绑定值
-    return fn.apply(
-      this instanceof Fn ? this : context,
+  // 3.返回一个新的函数，考虑new操作符
+  const self = this;
+  const fNOP = function () {};
+  const fBond = function () {
+    return self.apply(
+      this instanceof fNOP ? this : context,
       args.concat(...arguments)
     );
   };
+
+  fNOP.prototype = this.prototype;
+  fBond.prototype = new fNOP();
+  return fBond;
 };
 
 //test
