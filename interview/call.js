@@ -8,7 +8,7 @@
 Function.prototype.myCall = function (context) {
   // 1、判断调用对象是否是函数
   if (typeof this !== "function") {
-    throw TypeError("type error");
+    throw new TypeError("Error");
   }
   // 2、判断context是否传入，没有则设置为window，并且取出参数
   context = context || window;
@@ -28,4 +28,4 @@ function hello(name) {
   console.log("hello " + name);
 }
 
-hello.call(null, "fangfang");
+hello.myCall(null, "fangfang");
