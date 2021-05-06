@@ -12,7 +12,7 @@ function zigzagLevelOrder(root) {
 
   while (nodeQueue.length) {
     let levelList = [];
-    const size = nodeQueue.length();
+    const size = nodeQueue.length;
 
     for (let i = 0; i < size; i++) {
       const node = nodeQueue.shift();
