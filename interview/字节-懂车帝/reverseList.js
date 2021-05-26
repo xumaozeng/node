@@ -3,7 +3,6 @@
  */
 
 function reverseList(head) {
-  if (!head) return null;
   let pre_node = null;
   let curr_node = head;
 
