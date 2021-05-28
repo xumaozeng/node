@@ -5,7 +5,6 @@
 function maxSlidingWindow(nums, k) {
   const win = [];
   const result = [];
-  if (k === 0) return [];
   for (let i = 0; i < nums.length; i++) {
     if (i - win[0] > k - 1) win.shift();
 
