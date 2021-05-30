@@ -3,6 +3,16 @@
  */
 
 function hasCycle(head) {
+  // 第一种方法空间复杂度O(n)
+  const set = new Set();
+  while (head) {
+    if (set.has(head)) return true;
+    else set.add(head);
+    head = head.next;
+  }
+  return false;
+
+  /* // 第二种方法空间复杂度O(1)
   let slow = head,
     fast = head;
   while (fast && fast.next) {
@@ -12,5 +22,5 @@ function hasCycle(head) {
     if (slow === fast) return true;
   }
 
-  return false;
+  return false; */
 }
