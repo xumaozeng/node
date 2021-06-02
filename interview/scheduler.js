@@ -4,7 +4,31 @@
  */
 
 class Scheduler {
-  add(promiseCreator) {}
+  constructor() {
+    this.taskQueue = [];
+    this.taskRun = [];
+  }
+  add(promiseCreator) {
+    return new Promise(resolve => {
+      promiseCreator.resolve = resolve;
+      if (this.taskRun.length < 2) {
+        this.run(promiseCreator);
+      } else {
+        this.taskQueue.push(promiseCreator);
+      }
+    });
+  }
+  run(promiseCreator) {
+    this.taskRun.push(promiseCreator);
+    promiseCreator().then(() => {
+      promiseCreator.resolve();
+      const index = this.taskRun.indexOf(promiseCreator);
+      this.taskRun.splice(index, 1);
+      if (this.taskQueue.length > 0) {
+        this.run(this.taskQueue.shift());
+      }
+    });
+  }
 }
 
 const timeout = time => new Promise(resolve => setTimeout(resolve, time));
