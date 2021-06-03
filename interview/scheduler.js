@@ -5,26 +5,27 @@
 
 class Scheduler {
   constructor() {
-    this.pendingTask = [];
-    this.runningTask = [];
+    this.taskQueue = [];
+    this.counter = 0;
     this.limit = 2;
   }
   add(promiseCreator) {
     return new Promise(resolve => {
       promiseCreator.resolve = resolve;
-      if (this.runningTask.length < this.limit) {
+      if (this.counter < this.limit) {
         this.run(promiseCreator);
       } else {
-        this.pendingTask.push(promiseCreator);
+        this.taskQueue.push(promiseCreator);
       }
     });
   }
   run(promiseCreator) {
-    this.runningTask.push(promiseCreator);
+    this.counter++;
     promiseCreator().then(() => {
       promiseCreator.resolve();
-      if (this.pendingTask.length > 0) {
-        this.run(this.pendingTask.shift());
+      this.counter--;
+      if (this.taskQueue.length > 0) {
+        this.run(this.taskQueue.shift());
       }
     });
   }
