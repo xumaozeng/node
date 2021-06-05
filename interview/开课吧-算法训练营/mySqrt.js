@@ -9,7 +9,7 @@ function mySqrt(x) {
     end = x,
     res;
   while (start <= end) {
-    // 位运算右移一位相当于除以2
+    // 位运算右移一位相当于/2
     const mid = (start + end) >> 1;
     if (mid * mid === x) {
       return mid;

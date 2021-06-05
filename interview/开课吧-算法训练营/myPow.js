@@ -6,8 +6,8 @@ function myPow(x, n) {
   // 二分法
   if (n === 0) return 1;
   if (n < 0) return 1 / myPow(x, -n);
-  if (n % 2 === 1) {
-    // 奇数
+  if (n & 1) {
+    // 位运算符&1相当于%2
     return x * myPow(x, n - 1);
   }
   return myPow(x * x, n / 2);
