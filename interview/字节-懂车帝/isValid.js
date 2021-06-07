@@ -3,24 +3,20 @@
  */
 
 function isValid(s) {
-  const n = s.length;
-  // 奇数返回false
-  if (n % 2 === 1) return false;
-  const map = new Map([
-    [")", "("],
-    ["]", "["],
-    ["}", "{"]
-  ]);
+  // 位运算&1等于%2判断奇偶
+  if (s.length & 1) return false;
   const stack = [];
-  for (let ch of s) {
-    if (map.has(ch)) {
-      if (!stack.length || stack[stack.length - 1] !== map.get(ch)) {
-        return false;
-      }
-      stack.pop();
-    } else {
+  const obj = { "(": ")", "[": "]", "{": "}" };
+  for (const ch of s) {
+    if (ch in obj) {
       stack.push(ch);
+    } else {
+      if (ch !== obj[stack.pop()]) return false;
     }
   }
   return !stack.length;
 }
+
+//test
+const s = "[]()";
+console.log(isValid(s));
