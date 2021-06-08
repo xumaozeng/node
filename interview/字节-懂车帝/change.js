@@ -1,5 +1,5 @@
 /**
- * 零钱兑换
+ * 零钱兑换II
  */
 
 function change(amount, coins) {
