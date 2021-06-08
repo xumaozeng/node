@@ -14,10 +14,10 @@ const createDec = str => (target, property) => {
 };
 
 const dec = createDec("*");
-dec(Log, "print");
+dec(Log1, "print");
 
 const dec2 = createDec("-");
-dec(dec2(Log, "print"), "print");
+dec(dec2(Log1, "print"), "print");
 
-const log1 = new Log();
-log.print("123");
+const log1 = new Log1();
+log1.print("123");

@@ -8,7 +8,8 @@
     "experimentalDecorators": true, // 开启装饰器定义
     "allowSyntheticDefaultImports": true, // 允许es6方式import
     "lib": [
-      "es2015"
+      "es2015",
+      "DOM"
     ],
     "typeRoots": [
       "./node_modules/@types"
