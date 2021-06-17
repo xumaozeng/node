@@ -34,7 +34,7 @@ MinStack.prototype.top = function () {
 
 // getMin
 MinStack.prototype.getMin = function () {
-  if (this.min.length > 0) {
+  if (this.stack.length > 0) {
     return this.min[this.min.length - 1];
   }
 };
