@@ -5,7 +5,7 @@
 function sortedArrayToBST(nums) {
   const buildBST = (nums, start, end) => {
     if (start > end) return null;
-    const midIndex = Math.floor((start + end) / 2);
+    const midIndex = (start + end) >> 1;
     const root = new TreeNode(nums[midIndex]);
 
     root.left = buildBST(nums, start, midIndex - 1);
