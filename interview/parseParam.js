@@ -10,11 +10,11 @@
  */
 
 function parseParam(url) {
-  const paramStr = /.+\?(.+)$/.exec(url)[1]; // 将？后面字符取出来
+  const paramStr = url.match(/.*\?(.*)$/)[1]; // 将？后面字符取出来
   const paraArr = paramStr.split("&"); // 将字符串以&号分割存到数组
   const paramObj = {};
   paraArr.forEach(param => {
-    if (/=/.test(param)) {
+    if (param.includes("=")) {
       // 处理有value的参数
       let [key, value] = param.split("=");
       value = decodeURIComponent(value); // 解码
