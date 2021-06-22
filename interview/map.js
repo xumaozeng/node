@@ -31,12 +31,27 @@ Object.prototype.map = function (fn) {
   return result;
 };
 
-// test
-const obj = {
-  a: 1,
-  b: 2,
-  c: 3,
-  d: 4
-};
+// 使用reduce实现数组的map
+if (!Array.prototype.mapUsingReduce) {
+  Array.prototype.mapUsingReduce = function (callback, thisArg) {
+    return this.reduce(function (mappedArray, currentValue, index, array) {
+      mappedArray[index] = callback.call(thisArg, currentValue, index, array);
+      return mappedArray;
+    }, []);
+  };
+}
 
-console.log(obj.map((key, value) => value * 2));
+// 使用reduce实现数组的filter
+if (!Array.prototype.filterUsingReduce) {
+  Array.prototype.filterUsingReduce = function (callback, thisArg) {
+    return this.reduce(function (filteredArray, element, index, array) {
+      const result = callback.call(thisArg, element, index, array);
+      if (result) filteredArray.push(element);
+      return filteredArray;
+    }, []);
+  };
+}
+
+// test
+const res = [1, 2, , 3].filterUsingReduce(x => x & 1);
+console.log(res);
