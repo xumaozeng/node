@@ -27,7 +27,6 @@ function instanceOf2(L, R) {
     if (left === right) return true;
     left = Object.getPrototypeOf(left);
   }
-  return false;
 }
 
 //test
