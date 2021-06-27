@@ -19,10 +19,10 @@ function multiRequest(urls, maxNum) {
       if (finish === urls.length) resolve(result);
       while (start < min && index < urls.length) {
         start++;
-        fetch(urls[index++]).then(value => {
+        fetch(urls[index]).then(value => {
           start--;
           finish++;
-          result[index] = value;
+          result[index++] = value;
           run();
         });
       }
