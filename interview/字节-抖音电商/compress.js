@@ -5,8 +5,7 @@
 function compress(chars) {
   let ch = chars[0];
   let size = chars.length;
-  let i = 0,
-    j = 0;
+  let j = 0;
   while (size) {
     if (ch !== chars[0]) {
       chars.push(ch);
