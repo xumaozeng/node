@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this绑定问题</title>
+  </head>
+  <body>
+    <div id="div">点击this</div>
+    <script>
+      window.data = 5;
+      var foo = {
+        data: 6,
+        click() {
+          console.log(this.data);
+        }
+      };
+      var div = document.getElementById("div");
+      div.addEventListener("click", foo.click); // undefined，因为this指向div
+      div.addEventListener("click", foo.click.bind(window)); // 5，this指向window
+      div.addEventListener("click", foo.click.bind(foo)); // 6，this指向foo
+    </script>
+  </body>
+</html>
