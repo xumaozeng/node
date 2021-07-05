@@ -25,12 +25,8 @@ Promise.all = function (promises) {
   return new Promise((resolve, reject) => {
     const result = [];
     let finish = 0;
-    for (let i = 0; i < promises.length; i++) {
-      const promise =
-        promises[i] instanceof Promise
-          ? promises[i]
-          : Promise.resolve(promises[i]);
-      promise
+    for (const [i, p] of promises.entries()) {
+      resolve(p)
         .then(res => {
           result[i] = res;
           finish++;
@@ -44,8 +40,9 @@ Promise.all = function (promises) {
 Promise.race = function (promises) {
   return new Promise((resolve, reject) => {
     for (const promise of promises) {
-      promise = promise instanceof Promise ? promise : Promise.resolve(promise);
-      promise.then(res => resolve(res)).catch(err => reject(err));
+      resolve(promise)
+        .then(res => resolve(res))
+        .catch(err => reject(err));
     }
   });
 };
