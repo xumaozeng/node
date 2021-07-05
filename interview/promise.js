@@ -34,7 +34,7 @@ Promise.all = function (promises) {
         .then(res => {
           result[i] = res;
           finish++;
-          if (finish === promises.length - 1) resolve(result);
+          if (finish === promises.length) resolve(result);
         })
         .catch(err => reject(err));
     }
