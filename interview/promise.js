@@ -24,11 +24,17 @@ Promise.reject = function (error) {
 Promise.all = function (promises) {
   return new Promise((resolve, reject) => {
     const result = [];
-    for (const promise of promises) {
-      Promise.resolve(promise)
+    let finish = 0;
+    for (let i = 0; i < promises.length; i++) {
+      const promise =
+        promises[i] instanceof Promise
+          ? promises[i]
+          : Promise.resolve(promises[i]);
+      promise
         .then(res => {
-          result.push(res);
-          if (result.length === promises.length) resolve(result);
+          result[i] = res;
+          finish++;
+          if (finish === promises.length - 1) resolve(result);
         })
         .catch(err => reject(err));
     }
@@ -38,9 +44,8 @@ Promise.all = function (promises) {
 Promise.race = function (promises) {
   return new Promise((resolve, reject) => {
     for (const promise of promises) {
-      Promise.resolve(promise)
-        .then(res => resolve(res))
-        .catch(err => reject(err));
+      promise = promise instanceof Promise ? promise : Promise.resolve(promise);
+      promise.then(res => resolve(res)).catch(err => reject(err));
     }
   });
 };
