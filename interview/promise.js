@@ -26,7 +26,7 @@ Promise.all = function (promises) {
     const result = [];
     let finish = 0;
     for (const [i, p] of promises.entries()) {
-      resolve(p)
+      Promise.resolve(p)
         .then(res => {
           result[i] = res;
           finish++;
@@ -40,7 +40,7 @@ Promise.all = function (promises) {
 Promise.race = function (promises) {
   return new Promise((resolve, reject) => {
     for (const promise of promises) {
-      resolve(promise)
+      Promise.resolve(promise)
         .then(res => resolve(res))
         .catch(err => reject(err));
     }
@@ -50,12 +50,14 @@ Promise.race = function (promises) {
 Promise.allSettled = function (promises) {
   return new Promise(resolve => {
     const result = [];
-    for (const promise of promises) {
-      Promise.resolve(promise)
-        .then(res => result.push({ status: "fulfilled", value: res }))
-        .catch(err => result.push({ status: "rejected", reason: err }))
+    let count = 0;
+    for (const [i, p] of promises.entries()) {
+      Promise.resolve(p)
+        .then(value => (result[i] = { status: "fulfilled", value }))
+        .catch(reason => (result[i] = { status: "rejected", reason }))
         .finally(() => {
-          if (result.length === promises.length) resolve(result);
+          count++;
+          if (count === promises.length) resolve(result);
         });
     }
   });
