@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "serve": "ts-node serve.ts"
+    "serve": "ts-node serve.ts",
+    "net": "ts-node tcpServe.ts"
   },
   "devDependencies": {
     "@types/node": "^16.3.1",
