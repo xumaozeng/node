@@ -107,7 +107,7 @@ class MyPromise {
     return this.then(
       value => MyPromise.resolve(onFinally()).then(() => value),
       error =>
-        MyPromise.resolve(onFinally).then(() => {
+        MyPromise.resolve(onFinally()).then(() => {
           throw error;
         })
     );
