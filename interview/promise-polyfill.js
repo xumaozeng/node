@@ -136,25 +136,33 @@ MyPromise.reject = function (reason) {
 };
 
 MyPromise.all = function (promises) {
-  promises = Array.from(promises);
   return new MyPromise((resolve, reject) => {
-    const result = [];
-    let count = 0;
-    if (!promises.length) {
-      resolve(result);
+    if (
+      !promises ||
+      !promises[Symbol.iterator] ||
+      typeof promises[Symbol.iterator] !== "function"
+    ) {
+      reject(new TypeError("promises不是可迭代对象"));
     } else {
-      for (let i = 0; i < promises.length; i++) {
-        MyPromise.resolve(promises[i])
-          .then(value => {
-            result[i] = value;
-            count++;
-            if (count === promises.length) {
-              resolve(result);
-            }
-          })
-          .catch(err => {
-            reject(err);
-          });
+      promises = Array.from(promises);
+      const result = [];
+      let count = 0;
+      if (!promises.length) {
+        resolve(result);
+      } else {
+        for (let i = 0; i < promises.length; i++) {
+          MyPromise.resolve(promises[i])
+            .then(value => {
+              result[i] = value;
+              count++;
+              if (count === promises.length) {
+                resolve(result);
+              }
+            })
+            .catch(err => {
+              reject(err);
+            });
+        }
       }
     }
   });
@@ -203,7 +211,17 @@ const p1 = new MyPromise((resolve, reject) => {
   resolve("p1");
 });
 
-const p2 = p1.then(
+const p2 = MyPromise.resolve(2);
+
+MyPromise.all(1)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+/* const p2 = p1.then(
   res => {
     return new MyPromise((resolve, reject) => {
       resolve(
@@ -225,7 +243,7 @@ p2.then(
   err => {
     console.log(err);
   }
-);
+); */
 
 MyPromise.defer = MyPromise.deferred = function () {
   let dfd = {};
