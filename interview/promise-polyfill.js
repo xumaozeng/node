@@ -21,6 +21,18 @@ class MyPromise {
     this.onRejectedCallbacks = [];
 
     const resolve = value => {
+      // 判断value是否是thenable对象
+      if (isObject(value)) {
+        try {
+          const then = value.then;
+          if (isFunction(then)) {
+            return then.call(value, resolve, reject);
+          }
+        } catch (err) {
+          return reject(err);
+        }
+      }
+
       if (this.state === PENDING) {
         this.state = FULFILLED;
         this.value = value;
@@ -208,35 +220,23 @@ function resolvePromise(p, x, resolve, reject) {
 
 // test
 const p1 = new MyPromise((resolve, reject) => {
-  resolve("p1");
+  resolve(
+    new MyPromise(resolve => {
+      resolve("resolve promise");
+    })
+  );
 });
 
-const p2 = MyPromise.resolve(2);
-
-MyPromise.all(1)
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-/* const p2 = p1.then(
+const p2 = p1.then(
   res => {
-    return new MyPromise((resolve, reject) => {
-      resolve(
-        new MyPromise((resolve, reject) => {
-          resolve("p2 递归");
-        })
-      );
-    });
+    console.log(res);
   },
   err => {
-    console.log(err);
+    console.log("rejected " + err);
   }
 );
 
-p2.then(
+/* p2.then(
   res => {
     console.log(res);
   },
@@ -244,6 +244,29 @@ p2.then(
     console.log(err);
   }
 ); */
+
+/* const p2 = MyPromise.resolve(2);
+
+MyPromise.all(1)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  }); */
+
+/* const p1 = {
+  a: 1,
+  then(onFulfilled, onReject) {
+    onFulfilled(this.a);
+  }
+};
+
+const p2 = new Promise(resolve => {
+  resolve(p1);
+}).then(res => {
+  console.log(res);
+}); */
 
 MyPromise.defer = MyPromise.deferred = function () {
   let dfd = {};
